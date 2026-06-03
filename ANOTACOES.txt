@@ -1,0 +1,9 @@
+Adicionar no _ViewImporsts.cshtml os @using ListaDeCompras.WebApplication.NomeDaPastaDoModulo.Apresentacao;
+
+Adicionar no Compartilhado/Aplicacao/InjecaoDependencia.cs os scopeds dos services dos modulos;
+
+Adicionar no Compartilhado/Infraestrurura/InjecaoDependencia.cs os scopeds das InterfaceRepositorioModulos e RepositorioModulos;
+
+Adicionar no Compartilhado/Infraestrutura/Arquivos/Serializable.cs as Listas dos Modulos no inicio e Atribuilas no final do codigo;
+
+Adicionar no Compartilhado/Apresentacao/InjecaoDependencia.cs os Profiles dos Modulos;
