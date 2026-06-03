@@ -74,14 +74,14 @@ public class ServicoCategoria
         return categorias.Select(c => new ListarCategoriasDto(c.Id, c.Nome, c.Cor)).ToList();
     }
 
-    public Result<DetalhesCategoriaDto> SelecionarPorId(string id)
+    public Result<ListarCategoriasDto> SelecionarPorId(string id)
     {
         Categoria? categoria = repositorioCategoria.SelecionarPorId(id);
 
         if (categoria == null)
             return Result.Fail("Categoria não encontrada.");
 
-        return Result.Ok(new DetalhesCategoriaDto(categoria.Id, categoria.Nome, categoria.Cor));
+        return Result.Ok(new ListarCategoriasDto(categoria.Id, categoria.Nome, categoria.Cor));
     }
 
     private bool VerificarNomeDuplicado(string nome, string? idIgnorado = null)

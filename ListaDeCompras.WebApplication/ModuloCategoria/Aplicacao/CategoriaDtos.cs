@@ -16,9 +16,3 @@ public record EditarCategoriaDto(
     string Nome,
     string Cor
 );
-
-public record DetalhesCategoriaDto(
-    string Id,
-    string Nome,
-    string Cor
-);
