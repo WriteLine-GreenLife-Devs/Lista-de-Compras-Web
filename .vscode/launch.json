@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/ListaDeCompras.WebApplication/bin/Debug/net10.0/ListaDeCompras.WebApplication.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/ListaDeCompras.WebApplication",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)",
+                "uriFormat": "{0}",
+                "action": "openExternalUrl"
+            }
+        }
+    ]
+}
