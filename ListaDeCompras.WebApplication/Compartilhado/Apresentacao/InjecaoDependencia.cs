@@ -1,4 +1,5 @@
 using AutoMapper;
+using ListaDeCompras.WebApplication.ModuloCategoria.Apresentacao;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Apresentacao;
 
@@ -22,7 +23,7 @@ public static class InjecaoDependencia
         {
             #region Adicionar Profiles
 
-            // config.AddProfile<CaixaProfile>();
+            config.AddProfile<CategoriaProfile>();
             // config.AddProfile<RevistaProfile>();
 
             #endregion
