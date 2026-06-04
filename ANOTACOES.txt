@@ -12,4 +12,4 @@ Adicionar no Compartilhado/Apresentacao/InjecaoDependencia.cs os Profiles dos Mo
 
 O que Falta em Categorias:
 
-Não permitir excluir uma categoria caso tenha produtos vinculados
+Arrumar BUG: Não permitir excluir uma categoria caso tenha produtos vinculados
