@@ -9,7 +9,3 @@ Adicionar no Compartilhado/Infraestrurura/InjecaoDependencia.cs os scopeds das I
 Adicionar no Compartilhado/Infraestrutura/Arquivos/Serializable.cs as Listas dos Modulos no inicio e Atribuilas no final do codigo;
 
 Adicionar no Compartilhado/Apresentacao/InjecaoDependencia.cs os Profiles dos Modulos;
-
-O que Falta em Categorias:
-
-Arrumar BUG: Não permitir excluir uma categoria caso tenha produtos vinculados
