@@ -1,7 +1,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using ListaDeCompras.WebApplication.ModuloCategoria.Dominio;
-
+using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
 namespace ListaDeCompras.WebApplication.Compartilhado.Infraestrutura.Arquivos;
 
 public sealed class Serializable
@@ -9,9 +9,7 @@ public sealed class Serializable
     #region Adicionar Listas
 
     public List<Categoria> Categorias { get; set; } = new List<Categoria>();
-    // public List<Revista> Revistas { get; set; } = new List<Revista>();
-    // public List<Amigo> Amigos { get; set; } = new List<Amigo>();
-    // public List<Emprestimo> Emprestimos { get; set; } = new List<Emprestimo>();
+    public List<Produto> Produtos { get; set; } = new List<Produto>();
 
     #endregion
 
@@ -61,9 +59,7 @@ public sealed class Serializable
         #region Atribuir Listas
 
         Categorias = serializableSalvo.Categorias;
-        // Revistas = serializableSalvo.Revistas;
-        // Amigos = serializableSalvo.Amigos;
-        // Emprestimos = serializableSalvo.Emprestimos;
+        Produtos = serializableSalvo.Produtos;
 
         #endregion
     }

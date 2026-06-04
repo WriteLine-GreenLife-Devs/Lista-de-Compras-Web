@@ -1,4 +1,5 @@
 using ListaDeCompras.WebApplication.ModuloCategoria.Dominio;
+using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
 using FluentResults;
 
 namespace ListaDeCompras.WebApplication.ModuloCategoria.Aplicacao;
@@ -6,10 +7,12 @@ namespace ListaDeCompras.WebApplication.ModuloCategoria.Aplicacao;
 public class ServicoCategoria
 {
     private readonly InterfaceRepositorioCategoria repositorioCategoria;
+    private readonly InterfaceRepositorioProduto repositorioProduto;
 
-    public ServicoCategoria(InterfaceRepositorioCategoria repositorioCategoria)
+    public ServicoCategoria(InterfaceRepositorioCategoria repositorioCategoria, InterfaceRepositorioProduto repositorioProduto)
     {
         this.repositorioCategoria = repositorioCategoria;
+        this.repositorioProduto = repositorioProduto;
     }
 
     public Result Cadastrar(CadastrarCategoriaDto dto)
@@ -97,10 +100,9 @@ public class ServicoCategoria
         return false;
     }
 
-    private bool VerificarProdutoCadastrado(string nome, string? idIgnorado = null)
+    private bool VerificarProdutoCadastrado(string idCategoria)
     {
-        // Não permitir excluir uma categoria caso tenha produtos vinculados
-        return false;
+        return repositorioProduto.SelecionarTodos().Any(p => p.CategoriaId == idCategoria);
     }
 
     private static Result RetornarErros(List<string> erros)

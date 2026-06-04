@@ -1,0 +1,53 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Editar Produto";
+}
+
+@model EditarProdutoViewModel
+
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Editar" method="post">
+    <input asp-for="Id" type="hidden" />
+
+    @if (ViewData.ModelState.Values.SelectMany(v => v.Errors).Any())
+    {
+        <div asp-validation-summary="All" class="alert alert-danger border-danger rounded-3 p-3 mb-4" role="alert"></div>
+    }
+
+    <div class="mb-3">
+        <label asp-for="Nome" class="form-label fw-semibold text-primary text-uppercase small">Nome</label>
+        <input asp-for="Nome" type="text" class="form-control" placeholder="Ex: Arroz Integral">
+        <span asp-validation-for="Nome" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UnidadeDeMedida" class="form-label fw-semibold text-primary text-uppercase small">Unidade de Medida</label>
+        <input asp-for="UnidadeDeMedida" type="text" class="form-control" placeholder="Ex: Kg">
+        <span asp-validation-for="UnidadeDeMedida" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Preco" class="form-label fw-semibold text-primary text-uppercase small">Preço</label>
+        <input asp-for="Preco" type="number" step="0.01" class="form-control" placeholder="Ex: 12.50">
+        <span asp-validation-for="Preco" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoriaId" class="form-label fw-semibold text-primary text-uppercase small">Categoria</label>
+        <select asp-for="CategoriaId" class="form-select" required>
+            <option value="">Selecione uma categoria</option>
+            @if (ViewBag.Categorias != null)
+            {
+                @foreach (var cat in ViewBag.Categorias)
+                {
+                    <option value="@cat.Id" selected="@(Model.CategoriaId == cat.Id ? "selected" : "")">@cat.Nome</option>
+                }
+            }
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger small fw-semibold"></span>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2 mt-4">
+        <a class="btn btn-outline-primary rounded-pill px-4" asp-action="Listar">Voltar</a>
+        <button class="btn btn-primary rounded-pill px-4" type="submit">Confirmar</button>
+    </div>
+</form>

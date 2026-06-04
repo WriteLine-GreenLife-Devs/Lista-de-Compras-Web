@@ -1,4 +1,5 @@
 using ListaDeCompras.WebApplication.ModuloCategoria.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloProduto.Aplicacao;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Aplicacao;
 
@@ -9,7 +10,7 @@ public static class InjecaoDependencia
         #region AdicionarScopeds
 
         services.AddScoped<ServicoCategoria>();
-        // services.AddScoped<ServicoRevista>();
+        services.AddScoped<ServicoProduto>();
 
         #endregion
     }
