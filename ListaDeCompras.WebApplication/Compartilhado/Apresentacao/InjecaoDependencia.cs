@@ -1,6 +1,7 @@
 using AutoMapper;
 using ListaDeCompras.WebApplication.ModuloCategoria.Apresentacao;
 using ListaDeCompras.WebApplication.ModuloProduto.Apresentacao;
+using ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Apresentacao;
 
@@ -26,6 +27,7 @@ public static class InjecaoDependencia
 
             config.AddProfile<CategoriaProfile>();
             config.AddProfile<ProdutoProfile>();
+            config.AddProfile<ListasDeComprasProfile>();
 
             #endregion
         });

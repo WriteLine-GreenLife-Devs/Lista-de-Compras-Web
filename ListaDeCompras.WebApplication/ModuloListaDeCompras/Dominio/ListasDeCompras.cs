@@ -13,6 +13,8 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
     public string Nome { get; set; } = string.Empty;
     public DateTime DataCriacao { get; set; }
     public StatusLista Status { get; set; } = StatusLista.Aberta;
+    public int ItensTotais { get; set; }
+    public decimal GastoEstimado { get; set; }
 
     public ListasDeCompras() { }
 
@@ -20,6 +22,8 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
     {
         Nome = nome;
         DataCriacao = dataCriacao;
+        ItensTotais = 0;
+        GastoEstimado = 0;
     }
 
     public override List<string> Validar()
@@ -37,5 +41,7 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
         Nome = entidadeAtualizada.Nome;
         DataCriacao = entidadeAtualizada.DataCriacao;
         Status = entidadeAtualizada.Status;
+        ItensTotais = entidadeAtualizada.ItensTotais;
+        GastoEstimado = entidadeAtualizada.GastoEstimado;
     }
 }

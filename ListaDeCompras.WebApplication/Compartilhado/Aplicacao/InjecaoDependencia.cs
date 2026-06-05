@@ -12,6 +12,7 @@ public static class InjecaoDependencia
 
         services.AddScoped<ServicoCategoria>();
         services.AddScoped<ServicoProduto>();
+        services.AddScoped<ServicoListasDeCompras>();
 
         #endregion
     }

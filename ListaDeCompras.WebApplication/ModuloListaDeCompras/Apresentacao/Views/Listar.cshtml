@@ -1,0 +1,44 @@
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Visualização de Listas de Compras";
+}
+
+@model List<ListarListasDeComprasViewModel>;
+
+
+<a class="btn-cadastrar-novo" asp-action="Cadastrar">Cadastrar Novo</a>
+
+@if (Model.Count == 0)
+{
+    <div class="alert alert-primary border-start border-primary border-2 rounded-3" role="alert">
+        Nenhuma lista de compras cadastrada.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="registros">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (ListarListasDeComprasViewModel ldc in Model)
+                {
+                    <tr>
+                        <td>@ldc.Id</td>
+                        <td>@ldc.Nome</td>
+                        <td>
+                            <a asp-action="Editar" asp-route-id="@ldc.Id">Editar</a>
+                            <a asp-action="Excluir" asp-route-id="@ldc.Id">Excluir</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
