@@ -2,9 +2,17 @@ using ListaDeCompras.WebApplication.Compartilhado.Dominio;
 
 namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
 
+public enum StatusLista
+{
+    Aberta,
+    Concluida
+}
+
 public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
 {
     public string Nome { get; set; } = string.Empty;
+    public DateTime dataCriacao { get; set; }
+    public StatusLista Status { get; set; } = StatusLista.Aberta;
 
     public ListasDeCompras() { }
 
