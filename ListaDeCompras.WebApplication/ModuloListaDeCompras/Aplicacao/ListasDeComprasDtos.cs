@@ -2,14 +2,17 @@ namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
 
 public record ListarListasDeComprasDto(
     string Id,
-    string Nome
+    string Nome,
+    DateTime DataCriacao
 );
 
 public record CadastrarListasDeComprasDto(
-    string Nome
+    string Nome,
+    DateTime DataCriacao
 );
 
 public record EditarListasDeComprasDto(
     string Id,
-    string Nome
+    string Nome,
+    DateTime DataCriacao
 );

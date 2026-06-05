@@ -18,7 +18,8 @@ public class ServicoListasDeCompras
     public Result Cadastrar(CadastrarListasDeComprasDto dto)
     {
         ListasDeCompras novaListasDeCompras = new ListasDeCompras(
-            dto.Nome
+            dto.Nome,
+            dto.DataCriacao
         );
 
         List<string> erros = novaListasDeCompras.Validar();
@@ -37,7 +38,8 @@ public class ServicoListasDeCompras
     public Result Editar(EditarListasDeComprasDto dto)
     {
         ListasDeCompras listasDeComprasAtualizada = new ListasDeCompras(
-            dto.Nome
+            dto.Nome,
+            dto.DataCriacao
         );
 
         List<string> erros = listasDeComprasAtualizada.Validar();
@@ -72,7 +74,7 @@ public class ServicoListasDeCompras
     {
         List<ListasDeCompras> listasDeCompras = repositorioListasDeCompras.SelecionarTodos();
 
-        return listasDeCompras.Select(ldc => new ListarListasDeComprasDto(ldc.Id, ldc.Nome)).ToList();
+        return listasDeCompras.Select(ldc => new ListarListasDeComprasDto(ldc.Id, ldc.Nome, ldc.DataCriacao)).ToList();
     }
 
     public Result<ListarListasDeComprasDto> SelecionarPorId(string id)
@@ -82,7 +84,7 @@ public class ServicoListasDeCompras
         if (listasDeCompras == null)
             return Result.Fail("Lista de compras não encontrada.");
 
-        return Result.Ok(new ListarListasDeComprasDto(listasDeCompras.Id, listasDeCompras.Nome));
+        return Result.Ok(new ListarListasDeComprasDto(listasDeCompras.Id, listasDeCompras.Nome, listasDeCompras.DataCriacao));
     }
 
     private bool VerificarNomeDuplicado(string nome, string? idIgnorado = null)

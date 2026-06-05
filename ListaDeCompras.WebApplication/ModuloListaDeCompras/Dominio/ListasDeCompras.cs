@@ -11,14 +11,15 @@ public enum StatusLista
 public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
 {
     public string Nome { get; set; } = string.Empty;
-    public DateTime dataCriacao { get; set; }
+    public DateTime DataCriacao { get; set; }
     public StatusLista Status { get; set; } = StatusLista.Aberta;
 
     public ListasDeCompras() { }
 
-    public ListasDeCompras(string nome)
+    public ListasDeCompras(string nome, DateTime dataCriacao)
     {
         Nome = nome;
+        DataCriacao = dataCriacao;
     }
 
     public override List<string> Validar()
@@ -34,5 +35,7 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
     public override void Atualizar(ListasDeCompras entidadeAtualizada)
     {
         Nome = entidadeAtualizada.Nome;
+        DataCriacao = entidadeAtualizada.DataCriacao;
+        Status = entidadeAtualizada.Status;
     }
 }
