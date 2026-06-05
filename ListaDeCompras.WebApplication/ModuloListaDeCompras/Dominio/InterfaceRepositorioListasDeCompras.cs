@@ -1,0 +1,5 @@
+using ListaDeCompras.WebApplication.Compartilhado.Dominio;
+
+namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+
+public interface InterfaceRepositorioListasDeCompras : InterfaceRepositorio<ListasDeCompras>;

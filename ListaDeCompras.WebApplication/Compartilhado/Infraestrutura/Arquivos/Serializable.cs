@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ListaDeCompras.WebApplication.ModuloCategoria.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
+using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
 namespace ListaDeCompras.WebApplication.Compartilhado.Infraestrutura.Arquivos;
 
 public sealed class Serializable
@@ -10,6 +11,7 @@ public sealed class Serializable
 
     public List<Categoria> Categorias { get; set; } = new List<Categoria>();
     public List<Produto> Produtos { get; set; } = new List<Produto>();
+    public List<ListasDeCompras> ListasDeCompras { get; set; } = new List<ListasDeCompras>();
 
     #endregion
 
@@ -60,6 +62,7 @@ public sealed class Serializable
 
         Categorias = serializableSalvo.Categorias;
         Produtos = serializableSalvo.Produtos;
+        ListasDeCompras = serializableSalvo.ListasDeCompras;
 
         #endregion
     }
