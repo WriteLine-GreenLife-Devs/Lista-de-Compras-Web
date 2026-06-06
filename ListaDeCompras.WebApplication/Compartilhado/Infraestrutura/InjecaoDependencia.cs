@@ -6,6 +6,8 @@ using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
 using ListaDeCompras.WebApplication.ModuloListaDeCompras.Infraestrutura;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Infraestrutura;
+using ListaDeCompras.WebApplication.ModuloItensDaLista.Dominio;
+using ListaDeCompras.WebApplication.ModuloItensDaLista.Infraestrutura;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Infraestrutura;
 
@@ -27,6 +29,7 @@ public static class InjecaoDependencia
         services.AddScoped<InterfaceRepositorioCategoria, RepositorioCategoria>();
         services.AddScoped<InterfaceRepositorioProduto, RepositorioProduto>();
         services.AddScoped<InterfaceRepositorioListasDeCompras, RepositorioListasDeCompras>();
+        services.AddScoped<InterfaceRepositorioItensDaLista, RepositorioItensDaLista>();
 
         #endregion
     }
