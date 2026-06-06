@@ -1,5 +1,6 @@
 using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
+using ListaDeCompras.WebApplication.ModuloItensDaLista.Dominio;
 using FluentResults;
 
 namespace ListaDeCompras.WebApplication.ModuloItensDaLista.Aplicacao;
