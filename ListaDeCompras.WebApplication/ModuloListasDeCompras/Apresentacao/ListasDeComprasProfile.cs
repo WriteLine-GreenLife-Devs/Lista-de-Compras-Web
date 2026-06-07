@@ -11,10 +11,12 @@ public class ListasDeComprasProfile : Profile
         CreateMap<ListarListasDeComprasDto, ListarListasDeComprasViewModel>();
 
         // Cadastrar
-        CreateMap<CadastrarListasDeComprasViewModel, CadastrarListasDeComprasDto>();
+        CreateMap<CadastrarListasDeComprasViewModel, CadastrarListasDeComprasDto>()
+            .ConstructUsing(vm => new CadastrarListasDeComprasDto(vm.Nome, DateTime.Now));
 
         // Editar
-        CreateMap<EditarListasDeComprasViewModel, EditarListasDeComprasDto>();
+        CreateMap<EditarListasDeComprasViewModel, EditarListasDeComprasDto>()
+            .ConstructUsing(vm => new EditarListasDeComprasDto(vm.Id, vm.Nome, DateTime.Now));
         CreateMap<ListarListasDeComprasDto, EditarListasDeComprasViewModel>();
 
         // Excluir
