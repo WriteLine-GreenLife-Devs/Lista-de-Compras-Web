@@ -3,10 +3,9 @@
     ViewBag.Titulo = "Visualização de Listas de Compras";
 }
 
-@model List<ListarListasDeComprasViewModel>;
+@model List<ListarListasDeComprasViewModel>
 
-
-<a class="btn-cadastrar-novo" asp-action="Cadastrar">Cadastrar Novo</a>
+<a class="btn btn-primary rounded-pill mb-3" asp-action="Cadastrar">Cadastrar Novo</a>
 
 @if (Model.Count == 0)
 {
@@ -17,24 +16,33 @@
 else
 {
     <div class="table-responsive">
-        <table class="registros">
-            <thead>
+        <table class="table table-striped table-bordered align-middle">
+            <thead class="table-primary">
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>Data de Criação</th>
+                    <th>Itens Totais</th>
+                    <th>Gasto Estimado</th>
                     <th>Ações</th>
                 </tr>
             </thead>
-
             <tbody>
                 @foreach (ListarListasDeComprasViewModel ldc in Model)
                 {
                     <tr>
                         <td>@ldc.Id</td>
                         <td>@ldc.Nome</td>
+                        <td>@ldc.DataCriacao.ToString("dd/MM/yyyy")</td>
+                        <td>@ldc.ItensTotais</td>
+                        <td>@ldc.GastoEstimado.ToString("C")</td>
                         <td>
-                            <a asp-action="Editar" asp-route-id="@ldc.Id">Editar</a>
-                            <a asp-action="Excluir" asp-route-id="@ldc.Id">Excluir</a>
+                            <a class="btn btn-sm btn-outline-primary rounded-pill" asp-action="Editar" asp-route-id="@ldc.Id">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a class="btn btn-sm btn-outline-danger rounded-pill" asp-action="Excluir" asp-route-id="@ldc.Id">
+                                <i class="bi bi-trash"></i> Excluir
+                            </a>
                         </td>
                     </tr>
                 }

@@ -17,12 +17,9 @@ public class ServicoListasDeCompras
 
     public Result Cadastrar(CadastrarListasDeComprasDto dto)
     {
-        ListasDeCompras novaListasDeCompras = new ListasDeCompras(
-            dto.Nome,
-            dto.DataCriacao
-        );
+        var novaLista = new ListasDeCompras(dto.Nome, dto.DataCriacao);
 
-        List<string> erros = novaListasDeCompras.Validar();
+        var erros = novaLista.Validar();
 
         if (VerificarNomeDuplicado(dto.Nome))
             erros.Add("Já existe uma lista de compras com este nome.");
@@ -30,19 +27,16 @@ public class ServicoListasDeCompras
         if (erros.Any())
             return RetornarErros(erros);
 
-        repositorioListasDeCompras.Cadastrar(novaListasDeCompras);
+        repositorioListasDeCompras.Cadastrar(novaLista);
 
         return Result.Ok();
     }
 
     public Result Editar(EditarListasDeComprasDto dto)
     {
-        ListasDeCompras listasDeComprasAtualizada = new ListasDeCompras(
-            dto.Nome,
-            dto.DataCriacao
-        );
+        var listaAtualizada = new ListasDeCompras(dto.Nome, dto.DataCriacao);
 
-        List<string> erros = listasDeComprasAtualizada.Validar();
+        var erros = listaAtualizada.Validar();
 
         if (VerificarNomeDuplicado(dto.Nome, dto.Id))
             erros.Add("Já existe uma lista de compras com este nome.");
@@ -50,14 +44,14 @@ public class ServicoListasDeCompras
         if (erros.Any())
             return RetornarErros(erros);
 
-        repositorioListasDeCompras.Editar(dto.Id, listasDeComprasAtualizada);
+        repositorioListasDeCompras.Editar(dto.Id, listaAtualizada);
 
         return Result.Ok();
     }
 
     public Result Excluir(string id)
     {
-        List<string> erros = new List<string>();
+        var erros = new List<string>();
 
         if (VerificarProdutoCadastrado(id))
             erros.Add("Não é possível excluir uma lista de compras que tenha produtos vinculados.");
@@ -72,43 +66,49 @@ public class ServicoListasDeCompras
 
     public List<ListarListasDeComprasDto> SelecionarTodos()
     {
-        List<ListasDeCompras> listasDeCompras = repositorioListasDeCompras.SelecionarTodos();
+        var listas = repositorioListasDeCompras.SelecionarTodos();
 
-        return listasDeCompras.Select(ldc => new ListarListasDeComprasDto(ldc.Id, ldc.Nome, ldc.DataCriacao)).ToList();
+        return listas.Select(ldc => new ListarListasDeComprasDto(
+            ldc.Id,
+            ldc.Nome,
+            ldc.DataCriacao,
+            ldc.ItensTotais,
+            ldc.GastoEstimado
+        )).ToList();
     }
 
     public Result<ListarListasDeComprasDto> SelecionarPorId(string id)
     {
-        ListasDeCompras? listasDeCompras = repositorioListasDeCompras.SelecionarPorId(id);
+        var lista = repositorioListasDeCompras.SelecionarPorId(id);
 
-        if (listasDeCompras == null)
+        if (lista == null)
             return Result.Fail("Lista de compras não encontrada.");
 
-        return Result.Ok(new ListarListasDeComprasDto(listasDeCompras.Id, listasDeCompras.Nome, listasDeCompras.DataCriacao));
+        return Result.Ok(new ListarListasDeComprasDto(
+            lista.Id,
+            lista.Nome,
+            lista.DataCriacao,
+            lista.ItensTotais,
+            lista.GastoEstimado
+        ));
     }
 
     private bool VerificarNomeDuplicado(string nome, string? idIgnorado = null)
     {
-        List<ListasDeCompras> listasDeCompras = repositorioListasDeCompras.SelecionarTodos();
+        var listas = repositorioListasDeCompras.SelecionarTodos();
 
-        foreach (ListasDeCompras ldc in listasDeCompras)
-        {
-            if (ldc.Id != idIgnorado && string.Equals(ldc.Nome, nome, StringComparison.OrdinalIgnoreCase))
-                return true;
-        }
-
-        return false;
+        return listas.Any(ldc => ldc.Id != idIgnorado && 
+            string.Equals(ldc.Nome, nome, StringComparison.OrdinalIgnoreCase));
     }
 
-    private bool VerificarProdutoCadastrado(string idCategoria)
+    private bool VerificarProdutoCadastrado(string idLista)
     {
-        return repositorioProduto.SelecionarTodos().Any(p => p.CategoriaId == idCategoria);
+        return repositorioProduto.SelecionarTodos().Any(p => p.CategoriaId == idLista);
     }
 
     private static Result RetornarErros(List<string> erros)
     {
-        List<IError> listaErros = erros.Select(e => new Error(e)).ToList<IError>();
-
+        var listaErros = erros.Select(e => new Error(e)).ToList<IError>();
         return Result.Fail(listaErros);
     }
 }

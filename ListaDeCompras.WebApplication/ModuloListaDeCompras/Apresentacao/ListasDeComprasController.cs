@@ -7,15 +7,17 @@ using ListaDeCompras.WebApplication.Compartilhado.Apresentacao.Extensions;
 
 namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
 
-public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCompras, IMapper mapeador, InterfaceRepositorioListasDeCompras repositorioListasDeCompras) : Controller
+public class ListasDeComprasController(
+    ServicoListasDeCompras servicoListasDeCompras, 
+    IMapper mapeador, 
+    InterfaceRepositorioListasDeCompras repositorioListasDeCompras
+) : Controller
 {
-
     [HttpGet]
     public ActionResult Listar()
     {
-        List<ListarListasDeComprasDto> dtos = servicoListasDeCompras.SelecionarTodos();
-
-        List<ListarListasDeComprasViewModel> listarVms = mapeador.Map<List<ListarListasDeComprasViewModel>>(dtos);
+        var dtos = servicoListasDeCompras.SelecionarTodos();
+        var listarVms = mapeador.Map<List<ListarListasDeComprasViewModel>>(dtos);
 
         return View(listarVms);
     }
@@ -23,11 +25,7 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
     [HttpGet]
     public ActionResult Cadastrar()
     {
-        CadastrarListasDeComprasViewModel cadastrarVm = new CadastrarListasDeComprasViewModel(
-            string.Empty
-        );
-
-        return View(cadastrarVm);
+        return View(new CadastrarListasDeComprasViewModel(string.Empty));
     }
 
     [HttpPost]
@@ -36,14 +34,12 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
         if (!ModelState.IsValid)
             return View(cadastrarVm);
 
-        CadastrarListasDeComprasDto dto = mapeador.Map<CadastrarListasDeComprasDto>(cadastrarVm);
-
-        Result resultado = servicoListasDeCompras.Cadastrar(dto);
+        var dto = mapeador.Map<CadastrarListasDeComprasDto>(cadastrarVm);
+        var resultado = servicoListasDeCompras.Cadastrar(dto);
 
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-
             return View(cadastrarVm);
         }
 
@@ -53,16 +49,11 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
     [HttpGet]
     public ActionResult Editar(string id)
     {
-        ListasDeCompras? listasDeCompras = repositorioListasDeCompras.SelecionarPorId(id);
-
-        if (listasDeCompras == null)
+        var lista = repositorioListasDeCompras.SelecionarPorId(id);
+        if (lista == null)
             return RedirectToAction(nameof(Listar));
 
-        EditarListasDeComprasViewModel editarVm = new EditarListasDeComprasViewModel(
-            id,
-            listasDeCompras.Nome
-        );
-
+        var editarVm = new EditarListasDeComprasViewModel(id, lista.Nome);
         return View(editarVm);
     }
 
@@ -72,14 +63,12 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
         if (!ModelState.IsValid)
             return View(editarVm);
 
-        EditarListasDeComprasDto dto = mapeador.Map<EditarListasDeComprasDto>(editarVm);
-
-        Result resultado = servicoListasDeCompras.Editar(dto);
+        var dto = mapeador.Map<EditarListasDeComprasDto>(editarVm);
+        var resultado = servicoListasDeCompras.Editar(dto);
 
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-
             return View(editarVm);
         }
 
@@ -89,17 +78,16 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
     [HttpGet]
     public ActionResult Excluir(string id)
     {
-        ListasDeCompras? listasDeCompras = repositorioListasDeCompras.SelecionarPorId(id);
-
-        if (listasDeCompras == null)
+        var lista = repositorioListasDeCompras.SelecionarPorId(id);
+        if (lista == null)
             return RedirectToAction(nameof(Listar));
 
-        ExcluirListasDeComprasViewModel excluirVm = new ExcluirListasDeComprasViewModel(
+        var excluirVm = new ExcluirListasDeComprasViewModel(
             id,
-            listasDeCompras.Nome,
-            listasDeCompras.DataCriacao,
-            listasDeCompras.ItensTotais,
-            listasDeCompras.GastoEstimado
+            lista.Nome,
+            lista.DataCriacao,
+            lista.ItensTotais,
+            lista.GastoEstimado
         );
 
         return View(excluirVm);
@@ -108,12 +96,11 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
     [HttpPost]
     public ActionResult Excluir(ExcluirListasDeComprasViewModel excluirVm)
     {
-        Result resultado = servicoListasDeCompras.Excluir(excluirVm.Id);
+        var resultado = servicoListasDeCompras.Excluir(excluirVm.Id);
 
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-
             return View(excluirVm);
         }
 
