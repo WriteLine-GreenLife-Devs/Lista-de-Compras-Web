@@ -24,6 +24,7 @@ else
                     <th>Data de Criação</th>
                     <th>Itens Totais</th>
                     <th>Gasto Estimado</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -37,6 +38,7 @@ else
                         <td>@ldc.DataCriacao.ToString("dd/MM/yyyy")</td>
                         <td>@ldc.ItensTotais</td>
                         <td>@ldc.GastoEstimado.ToString("C")</td>
+                        <td>@ldc.Status</td>
                         <td>
                             <a asp-action="Editar" asp-route-id="@ldc.Id">Editar</a>
                             <a asp-action="Excluir" asp-route-id="@ldc.Id">Excluir</a>

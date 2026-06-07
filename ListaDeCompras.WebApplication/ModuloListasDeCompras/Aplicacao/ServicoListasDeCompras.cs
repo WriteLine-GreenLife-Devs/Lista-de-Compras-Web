@@ -73,7 +73,8 @@ public class ServicoListasDeCompras
             ldc.Nome,
             ldc.DataCriacao,
             ldc.ItensTotais,
-            ldc.GastoEstimado
+            ldc.GastoEstimado,
+            ldc.Status
         )).ToList();
     }
 
@@ -89,7 +90,8 @@ public class ServicoListasDeCompras
             listasDeCompras.Nome,
             listasDeCompras.DataCriacao,
             listasDeCompras.ItensTotais,
-            listasDeCompras.GastoEstimado
+            listasDeCompras.GastoEstimado,
+            listasDeCompras.Status
         ));
     }
 

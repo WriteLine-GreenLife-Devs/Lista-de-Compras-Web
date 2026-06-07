@@ -96,7 +96,8 @@ public class ListasDeComprasController(
             listasDeCompras.Nome,
             listasDeCompras.DataCriacao,
             listasDeCompras.ItensTotais,
-            listasDeCompras.GastoEstimado
+            listasDeCompras.GastoEstimado,
+            listasDeCompras.Status
         );
 
         return View(excluirVm);

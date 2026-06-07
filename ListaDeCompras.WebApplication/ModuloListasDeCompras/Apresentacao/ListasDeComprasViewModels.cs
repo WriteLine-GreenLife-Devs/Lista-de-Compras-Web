@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 
 namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Apresentacao;
 
@@ -7,7 +8,8 @@ public record ListarListasDeComprasViewModel(
     string Nome,
     DateTime DataCriacao,
     int ItensTotais,
-    decimal GastoEstimado
+    decimal GastoEstimado,
+    StatusLista Status
 );
 
 public record CadastrarListasDeComprasViewModel(
@@ -28,5 +30,6 @@ public record ExcluirListasDeComprasViewModel(
     string Nome,
     DateTime DataCriacao,
     int ItensTotais,
-    decimal GastoEstimado
+    decimal GastoEstimado,
+    StatusLista Status
 );
