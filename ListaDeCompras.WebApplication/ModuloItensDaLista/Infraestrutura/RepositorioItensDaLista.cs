@@ -1,6 +1,5 @@
 using ListaDeCompras.WebApplication.Compartilhado.Infraestrutura.Arquivos;
 using ListaDeCompras.WebApplication.ModuloItensDaLista.Dominio;
-using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 
 namespace ListaDeCompras.WebApplication.ModuloItensDaLista.Infraestrutura;
 
