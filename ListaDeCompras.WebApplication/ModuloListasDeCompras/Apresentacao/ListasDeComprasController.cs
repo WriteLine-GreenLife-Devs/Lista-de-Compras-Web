@@ -1,15 +1,18 @@
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 using FluentResults;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ListaDeCompras.WebApplication.Compartilhado.Apresentacao.Extensions;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Apresentacao;
 
-public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCompras, IMapper mapeador, InterfaceRepositorioListasDeCompras repositorioListasDeCompras) : Controller
+public class ListasDeComprasController(
+    ServicoListasDeCompras servicoListasDeCompras, 
+    IMapper mapeador, 
+    InterfaceRepositorioListasDeCompras repositorioListasDeCompras
+) : Controller
 {
-
     [HttpGet]
     public ActionResult Listar()
     {
@@ -43,7 +46,6 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-
             return View(cadastrarVm);
         }
 
@@ -58,11 +60,7 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
         if (listasDeCompras == null)
             return RedirectToAction(nameof(Listar));
 
-        EditarListasDeComprasViewModel editarVm = new EditarListasDeComprasViewModel(
-            id,
-            listasDeCompras.Nome
-        );
-
+        EditarListasDeComprasViewModel editarVm = new EditarListasDeComprasViewModel(id, listasDeCompras.Nome);
         return View(editarVm);
     }
 
@@ -79,7 +77,6 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-
             return View(editarVm);
         }
 
@@ -99,7 +96,8 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
             listasDeCompras.Nome,
             listasDeCompras.DataCriacao,
             listasDeCompras.ItensTotais,
-            listasDeCompras.GastoEstimado
+            listasDeCompras.GastoEstimado,
+            listasDeCompras.Status
         );
 
         return View(excluirVm);
@@ -113,7 +111,6 @@ public class ListasDeComprasController(ServicoListasDeCompras servicoListasDeCom
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-
             return View(excluirVm);
         }
 

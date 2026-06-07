@@ -1,9 +1,14 @@
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
+
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
 
 public record ListarListasDeComprasDto(
     string Id,
     string Nome,
-    DateTime DataCriacao
+    DateTime DataCriacao,
+    int ItensTotais,
+    decimal GastoEstimado,
+    StatusLista Status
 );
 
 public record CadastrarListasDeComprasDto(

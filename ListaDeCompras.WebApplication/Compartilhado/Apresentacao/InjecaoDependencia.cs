@@ -1,7 +1,7 @@
 using AutoMapper;
 using ListaDeCompras.WebApplication.ModuloCategoria.Apresentacao;
 using ListaDeCompras.WebApplication.ModuloProduto.Apresentacao;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Apresentacao;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Apresentacao;
 

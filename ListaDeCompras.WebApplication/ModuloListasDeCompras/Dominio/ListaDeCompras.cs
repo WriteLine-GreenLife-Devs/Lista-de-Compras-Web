@@ -1,6 +1,6 @@
 using ListaDeCompras.WebApplication.Compartilhado.Dominio;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 
 public enum StatusLista
 {
@@ -16,12 +16,15 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
     public int ItensTotais { get; set; }
     public decimal GastoEstimado { get; set; }
 
-    public ListasDeCompras() { }
+    public ListasDeCompras()
+    {
+    }
 
     public ListasDeCompras(string nome, DateTime dataCriacao)
     {
         Nome = nome;
         DataCriacao = dataCriacao;
+        Status = StatusLista.Aberta;
         ItensTotais = 0;
         GastoEstimado = 0;
     }
@@ -32,6 +35,9 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
 
         if (string.IsNullOrWhiteSpace(Nome))
             erros.Add("O campo \"Nome\" deve ser preenchido.");
+
+        if (Nome.Length < 3 || Nome.Length > 100)
+            erros.Add("O campo \"Nome\" deve ter entre 3 e 100 caracteres.");
 
         return erros;
     }

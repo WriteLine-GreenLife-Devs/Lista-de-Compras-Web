@@ -3,8 +3,7 @@
     ViewBag.Titulo = "Visualização de Listas de Compras";
 }
 
-@model List<ListarListasDeComprasViewModel>;
-
+@model List<ListarListasDeComprasViewModel>
 
 <a class="btn-cadastrar-novo" asp-action="Cadastrar">Cadastrar Novo</a>
 
@@ -22,6 +21,10 @@ else
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
+                    <th>Data de Criação</th>
+                    <th>Itens Totais</th>
+                    <th>Gasto Estimado</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -32,6 +35,10 @@ else
                     <tr>
                         <td>@ldc.Id</td>
                         <td>@ldc.Nome</td>
+                        <td>@ldc.DataCriacao.ToString("dd/MM/yyyy")</td>
+                        <td>@ldc.ItensTotais</td>
+                        <td>@ldc.GastoEstimado.ToString("C")</td>
+                        <td>@ldc.Status</td>
                         <td>
                             <a asp-action="Editar" asp-route-id="@ldc.Id">Editar</a>
                             <a asp-action="Excluir" asp-route-id="@ldc.Id">Excluir</a>

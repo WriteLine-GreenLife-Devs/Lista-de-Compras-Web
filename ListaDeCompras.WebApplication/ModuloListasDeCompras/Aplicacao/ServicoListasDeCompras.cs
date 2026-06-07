@@ -1,8 +1,8 @@
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
 using FluentResults;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
 
 public class ServicoListasDeCompras
 {
@@ -17,12 +17,9 @@ public class ServicoListasDeCompras
 
     public Result Cadastrar(CadastrarListasDeComprasDto dto)
     {
-        ListasDeCompras novaListasDeCompras = new ListasDeCompras(
-            dto.Nome,
-            dto.DataCriacao
-        );
+        ListasDeCompras novaLista = new ListasDeCompras(dto.Nome, dto.DataCriacao);
 
-        List<string> erros = novaListasDeCompras.Validar();
+        List<string> erros = novaLista.Validar();
 
         if (VerificarNomeDuplicado(dto.Nome))
             erros.Add("Já existe uma lista de compras com este nome.");
@@ -30,19 +27,16 @@ public class ServicoListasDeCompras
         if (erros.Any())
             return RetornarErros(erros);
 
-        repositorioListasDeCompras.Cadastrar(novaListasDeCompras);
+        repositorioListasDeCompras.Cadastrar(novaLista);
 
         return Result.Ok();
     }
 
     public Result Editar(EditarListasDeComprasDto dto)
     {
-        ListasDeCompras listasDeComprasAtualizada = new ListasDeCompras(
-            dto.Nome,
-            dto.DataCriacao
-        );
+        ListasDeCompras listaAtualizada = new ListasDeCompras(dto.Nome, dto.DataCriacao);
 
-        List<string> erros = listasDeComprasAtualizada.Validar();
+        List<string> erros = listaAtualizada.Validar();
 
         if (VerificarNomeDuplicado(dto.Nome, dto.Id))
             erros.Add("Já existe uma lista de compras com este nome.");
@@ -50,7 +44,7 @@ public class ServicoListasDeCompras
         if (erros.Any())
             return RetornarErros(erros);
 
-        repositorioListasDeCompras.Editar(dto.Id, listasDeComprasAtualizada);
+        repositorioListasDeCompras.Editar(dto.Id, listaAtualizada);
 
         return Result.Ok();
     }
@@ -74,7 +68,14 @@ public class ServicoListasDeCompras
     {
         List<ListasDeCompras> listasDeCompras = repositorioListasDeCompras.SelecionarTodos();
 
-        return listasDeCompras.Select(ldc => new ListarListasDeComprasDto(ldc.Id, ldc.Nome, ldc.DataCriacao)).ToList();
+        return listasDeCompras.Select(ldc => new ListarListasDeComprasDto(
+            ldc.Id,
+            ldc.Nome,
+            ldc.DataCriacao,
+            ldc.ItensTotais,
+            ldc.GastoEstimado,
+            ldc.Status
+        )).ToList();
     }
 
     public Result<ListarListasDeComprasDto> SelecionarPorId(string id)
@@ -84,7 +85,14 @@ public class ServicoListasDeCompras
         if (listasDeCompras == null)
             return Result.Fail("Lista de compras não encontrada.");
 
-        return Result.Ok(new ListarListasDeComprasDto(listasDeCompras.Id, listasDeCompras.Nome, listasDeCompras.DataCriacao));
+        return Result.Ok(new ListarListasDeComprasDto(
+            listasDeCompras.Id,
+            listasDeCompras.Nome,
+            listasDeCompras.DataCriacao,
+            listasDeCompras.ItensTotais,
+            listasDeCompras.GastoEstimado,
+            listasDeCompras.Status
+        ));
     }
 
     private bool VerificarNomeDuplicado(string nome, string? idIgnorado = null)
@@ -100,15 +108,15 @@ public class ServicoListasDeCompras
         return false;
     }
 
-    private bool VerificarProdutoCadastrado(string idCategoria)
+    private bool VerificarProdutoCadastrado(string idLista)
     {
-        return repositorioProduto.SelecionarTodos().Any(p => p.CategoriaId == idCategoria);
+        return repositorioProduto.SelecionarTodos().Any(p => p.CategoriaId == idLista);
     }
 
     private static Result RetornarErros(List<string> erros)
     {
         List<IError> listaErros = erros.Select(e => new Error(e)).ToList<IError>();
-
+        
         return Result.Fail(listaErros);
     }
 }
