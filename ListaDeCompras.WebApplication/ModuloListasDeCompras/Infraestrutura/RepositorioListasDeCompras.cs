@@ -1,7 +1,7 @@
 using ListaDeCompras.WebApplication.Compartilhado.Infraestrutura.Arquivos;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Infraestrutura;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Infraestrutura;
 
 public class RepositorioListasDeCompras : RepositorioBase<ListasDeCompras>, InterfaceRepositorioListasDeCompras
 {

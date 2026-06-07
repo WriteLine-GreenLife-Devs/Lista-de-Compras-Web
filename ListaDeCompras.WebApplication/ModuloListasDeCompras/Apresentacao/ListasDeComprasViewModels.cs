@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Apresentacao;
 
 public record ListarListasDeComprasViewModel(
     string Id,

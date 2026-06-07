@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using ListaDeCompras.WebApplication.ModuloCategoria.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 namespace ListaDeCompras.WebApplication.Compartilhado.Infraestrutura.Arquivos;
 
 public sealed class Serializable

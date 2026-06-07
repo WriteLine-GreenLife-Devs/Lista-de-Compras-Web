@@ -1,4 +1,4 @@
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
 
 public record ListarListasDeComprasDto(
     string Id,

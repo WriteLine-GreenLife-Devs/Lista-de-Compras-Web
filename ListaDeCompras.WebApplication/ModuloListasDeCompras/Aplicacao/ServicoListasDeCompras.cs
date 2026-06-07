@@ -1,8 +1,8 @@
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
 using FluentResults;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
 
 public class ServicoListasDeCompras
 {
@@ -17,9 +17,9 @@ public class ServicoListasDeCompras
 
     public Result Cadastrar(CadastrarListasDeComprasDto dto)
     {
-        var novaLista = new ListasDeCompras(dto.Nome, dto.DataCriacao);
+        ListasDeCompras novaLista = new ListasDeCompras(dto.Nome, dto.DataCriacao);
 
-        var erros = novaLista.Validar();
+        List<string> erros = novaLista.Validar();
 
         if (VerificarNomeDuplicado(dto.Nome))
             erros.Add("Já existe uma lista de compras com este nome.");
@@ -34,9 +34,9 @@ public class ServicoListasDeCompras
 
     public Result Editar(EditarListasDeComprasDto dto)
     {
-        var listaAtualizada = new ListasDeCompras(dto.Nome, dto.DataCriacao);
+        ListasDeCompras listaAtualizada = new ListasDeCompras(dto.Nome, dto.DataCriacao);
 
-        var erros = listaAtualizada.Validar();
+        List<string> erros = listaAtualizada.Validar();
 
         if (VerificarNomeDuplicado(dto.Nome, dto.Id))
             erros.Add("Já existe uma lista de compras com este nome.");
@@ -51,7 +51,7 @@ public class ServicoListasDeCompras
 
     public Result Excluir(string id)
     {
-        var erros = new List<string>();
+        List<string> erros = new List<string>();
 
         if (VerificarProdutoCadastrado(id))
             erros.Add("Não é possível excluir uma lista de compras que tenha produtos vinculados.");
@@ -66,9 +66,9 @@ public class ServicoListasDeCompras
 
     public List<ListarListasDeComprasDto> SelecionarTodos()
     {
-        var listas = repositorioListasDeCompras.SelecionarTodos();
+        List<ListasDeCompras> listasDeCompras = repositorioListasDeCompras.SelecionarTodos();
 
-        return listas.Select(ldc => new ListarListasDeComprasDto(
+        return listasDeCompras.Select(ldc => new ListarListasDeComprasDto(
             ldc.Id,
             ldc.Nome,
             ldc.DataCriacao,
@@ -79,26 +79,31 @@ public class ServicoListasDeCompras
 
     public Result<ListarListasDeComprasDto> SelecionarPorId(string id)
     {
-        var lista = repositorioListasDeCompras.SelecionarPorId(id);
+        ListasDeCompras? listasDeCompras = repositorioListasDeCompras.SelecionarPorId(id);
 
-        if (lista == null)
+        if (listasDeCompras == null)
             return Result.Fail("Lista de compras não encontrada.");
 
         return Result.Ok(new ListarListasDeComprasDto(
-            lista.Id,
-            lista.Nome,
-            lista.DataCriacao,
-            lista.ItensTotais,
-            lista.GastoEstimado
+            listasDeCompras.Id,
+            listasDeCompras.Nome,
+            listasDeCompras.DataCriacao,
+            listasDeCompras.ItensTotais,
+            listasDeCompras.GastoEstimado
         ));
     }
 
     private bool VerificarNomeDuplicado(string nome, string? idIgnorado = null)
     {
-        var listas = repositorioListasDeCompras.SelecionarTodos();
+        List<ListasDeCompras> listasDeCompras = repositorioListasDeCompras.SelecionarTodos();
 
-        return listas.Any(ldc => ldc.Id != idIgnorado && 
-            string.Equals(ldc.Nome, nome, StringComparison.OrdinalIgnoreCase));
+        foreach (ListasDeCompras ldc in listasDeCompras)
+        {
+            if (ldc.Id != idIgnorado && string.Equals(ldc.Nome, nome, StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+
+        return false;
     }
 
     private bool VerificarProdutoCadastrado(string idLista)
@@ -108,7 +113,8 @@ public class ServicoListasDeCompras
 
     private static Result RetornarErros(List<string> erros)
     {
-        var listaErros = erros.Select(e => new Error(e)).ToList<IError>();
+        List<IError> listaErros = erros.Select(e => new Error(e)).ToList<IError>();
+        
         return Result.Fail(listaErros);
     }
 }

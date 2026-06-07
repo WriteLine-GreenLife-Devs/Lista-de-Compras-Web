@@ -1,7 +1,7 @@
 using AutoMapper;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Apresentacao;
 
 public class ListasDeComprasProfile : Profile
 {

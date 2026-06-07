@@ -1,11 +1,11 @@
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 using FluentResults;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using ListaDeCompras.WebApplication.Compartilhado.Apresentacao.Extensions;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Apresentacao;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Apresentacao;
 
 public class ListasDeComprasController(
     ServicoListasDeCompras servicoListasDeCompras, 
@@ -16,8 +16,9 @@ public class ListasDeComprasController(
     [HttpGet]
     public ActionResult Listar()
     {
-        var dtos = servicoListasDeCompras.SelecionarTodos();
-        var listarVms = mapeador.Map<List<ListarListasDeComprasViewModel>>(dtos);
+        List<ListarListasDeComprasDto> dtos = servicoListasDeCompras.SelecionarTodos();
+
+        List<ListarListasDeComprasViewModel> listarVms = mapeador.Map<List<ListarListasDeComprasViewModel>>(dtos);
 
         return View(listarVms);
     }
@@ -25,7 +26,11 @@ public class ListasDeComprasController(
     [HttpGet]
     public ActionResult Cadastrar()
     {
-        return View(new CadastrarListasDeComprasViewModel(string.Empty));
+        CadastrarListasDeComprasViewModel cadastrarVm = new CadastrarListasDeComprasViewModel(
+            string.Empty
+        );
+
+        return View(cadastrarVm);
     }
 
     [HttpPost]
@@ -34,8 +39,9 @@ public class ListasDeComprasController(
         if (!ModelState.IsValid)
             return View(cadastrarVm);
 
-        var dto = mapeador.Map<CadastrarListasDeComprasDto>(cadastrarVm);
-        var resultado = servicoListasDeCompras.Cadastrar(dto);
+        CadastrarListasDeComprasDto dto = mapeador.Map<CadastrarListasDeComprasDto>(cadastrarVm);
+
+        Result resultado = servicoListasDeCompras.Cadastrar(dto);
 
         if (resultado.IsFailed)
         {
@@ -49,11 +55,12 @@ public class ListasDeComprasController(
     [HttpGet]
     public ActionResult Editar(string id)
     {
-        var lista = repositorioListasDeCompras.SelecionarPorId(id);
-        if (lista == null)
+        ListasDeCompras? listasDeCompras = repositorioListasDeCompras.SelecionarPorId(id);
+
+        if (listasDeCompras == null)
             return RedirectToAction(nameof(Listar));
 
-        var editarVm = new EditarListasDeComprasViewModel(id, lista.Nome);
+        EditarListasDeComprasViewModel editarVm = new EditarListasDeComprasViewModel(id, listasDeCompras.Nome);
         return View(editarVm);
     }
 
@@ -63,8 +70,9 @@ public class ListasDeComprasController(
         if (!ModelState.IsValid)
             return View(editarVm);
 
-        var dto = mapeador.Map<EditarListasDeComprasDto>(editarVm);
-        var resultado = servicoListasDeCompras.Editar(dto);
+        EditarListasDeComprasDto dto = mapeador.Map<EditarListasDeComprasDto>(editarVm);
+
+        Result resultado = servicoListasDeCompras.Editar(dto);
 
         if (resultado.IsFailed)
         {
@@ -78,16 +86,17 @@ public class ListasDeComprasController(
     [HttpGet]
     public ActionResult Excluir(string id)
     {
-        var lista = repositorioListasDeCompras.SelecionarPorId(id);
-        if (lista == null)
+        ListasDeCompras? listasDeCompras = repositorioListasDeCompras.SelecionarPorId(id);
+
+        if (listasDeCompras == null)
             return RedirectToAction(nameof(Listar));
 
-        var excluirVm = new ExcluirListasDeComprasViewModel(
+        ExcluirListasDeComprasViewModel excluirVm = new ExcluirListasDeComprasViewModel(
             id,
-            lista.Nome,
-            lista.DataCriacao,
-            lista.ItensTotais,
-            lista.GastoEstimado
+            listasDeCompras.Nome,
+            listasDeCompras.DataCriacao,
+            listasDeCompras.ItensTotais,
+            listasDeCompras.GastoEstimado
         );
 
         return View(excluirVm);
@@ -96,7 +105,7 @@ public class ListasDeComprasController(
     [HttpPost]
     public ActionResult Excluir(ExcluirListasDeComprasViewModel excluirVm)
     {
-        var resultado = servicoListasDeCompras.Excluir(excluirVm.Id);
+        Result resultado = servicoListasDeCompras.Excluir(excluirVm.Id);
 
         if (resultado.IsFailed)
         {

@@ -1,6 +1,6 @@
 using ListaDeCompras.WebApplication.Compartilhado.Dominio;
 
-namespace ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+namespace ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 
 public enum StatusLista
 {

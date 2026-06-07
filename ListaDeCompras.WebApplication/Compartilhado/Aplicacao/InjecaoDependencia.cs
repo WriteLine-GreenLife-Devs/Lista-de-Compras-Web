@@ -1,6 +1,6 @@
 using ListaDeCompras.WebApplication.ModuloCategoria.Aplicacao;
 using ListaDeCompras.WebApplication.ModuloProduto.Aplicacao;
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Aplicacao;
 
