@@ -1,4 +1,4 @@
-using ListaDeCompras.WebApplication.ModuloListaDeCompras.Dominio;
+using ListaDeCompras.WebApplication.ModuloListasDeCompras.Dominio;
 using ListaDeCompras.WebApplication.ModuloProduto.Dominio;
 using ListaDeCompras.WebApplication.ModuloItensDaLista.Dominio;
 using FluentResults;
@@ -105,7 +105,7 @@ public class ServicoItensDaLista
 
     private bool VerificarListaCadastrada(string idProduto)
     {
-        return repositorioListaDeCompras.SelecionarTodos().Any(ldc => ldc.idProduto == idProduto);
+        return repositorioListasDeCompras.SelecionarTodos().Any(ldc => ldc.idProduto == idProduto);
     }
 
     private static Result RetornarErros(List<string> erros)

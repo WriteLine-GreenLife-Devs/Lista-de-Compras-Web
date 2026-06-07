@@ -1,4 +1,5 @@
 using ListaDeCompras.WebApplication.Compartilhado.Dominio;
+using ListaDeCompras.WebApplication.ModuloItensDaLista.Dominio;
 
 namespace ListaDeCompras.WebApplication.ModuloItensDaLista;
 

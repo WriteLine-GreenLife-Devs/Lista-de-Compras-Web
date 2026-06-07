@@ -16,7 +16,7 @@ public class ListasDeComprasProfile : Profile
 
         // Editar
         CreateMap<EditarListasDeComprasViewModel, EditarListasDeComprasDto>()
-            .ConstructUsing(vm => new EditarListasDeComprasDto(vm.Id, vm.Nome, DateTime.Now));
+            .ConstructUsing(vm => new EditarListasDeComprasDto(vm.Id, vm.Nome, vm.Status ,DateTime.Now));
         CreateMap<ListarListasDeComprasDto, EditarListasDeComprasViewModel>();
 
         // Excluir

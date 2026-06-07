@@ -60,7 +60,7 @@ public class ListasDeComprasController(
         if (listasDeCompras == null)
             return RedirectToAction(nameof(Listar));
 
-        EditarListasDeComprasViewModel editarVm = new EditarListasDeComprasViewModel(id, listasDeCompras.Nome);
+        EditarListasDeComprasViewModel editarVm = new EditarListasDeComprasViewModel(id, listasDeCompras.Nome, listasDeCompras.Status);
         return View(editarVm);
     }
 

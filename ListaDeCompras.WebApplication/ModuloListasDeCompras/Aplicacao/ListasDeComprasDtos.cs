@@ -19,5 +19,6 @@ public record CadastrarListasDeComprasDto(
 public record EditarListasDeComprasDto(
     string Id,
     string Nome,
+    StatusLista Status,
     DateTime DataCriacao
 );
