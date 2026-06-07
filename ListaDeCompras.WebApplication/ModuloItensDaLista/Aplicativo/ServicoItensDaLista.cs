@@ -11,7 +11,10 @@ public class ServicoItensDaLista
     private readonly InterfaceRepositorioListasDeCompras repositorioListasDeCompras;
     private readonly InterfaceRepositorioItensDaLista repositorioItensDaLista;
 
-    public ServicoItensDaLista(InterfaceRepositorioItensDaLista repositorioItensDaLista, InterfaceRepositorioProduto repositorioProduto, InterfaceRepositorioListasDeCompras repositorioListasDeCompras)
+    public ServicoItensDaLista(
+        InterfaceRepositorioItensDaLista repositorioItensDaLista,
+        InterfaceRepositorioProduto repositorioProduto,
+        InterfaceRepositorioListasDeCompras repositorioListasDeCompras)
     {
         this.repositorioItensDaLista = repositorioItensDaLista;
         this.repositorioProduto = repositorioProduto;
@@ -20,98 +23,111 @@ public class ServicoItensDaLista
 
     public Result Cadastrar(CadastrarItensDaListaDto dto)
     {
-        ItensDaLista novoItensDaLista = new ItensDaLista(
-            dto.Nome,
-            dto.Preco
-        );
+        ItensDaLista novoItem = new ItensDaLista(dto.ProdutoId, dto.ListaId, dto.Quantidade, dto.PrecoUnitario);
 
-        List<string> erros = novoItensDaLista.Validar();
+        List<string> erros = novoItem.Validar();
 
-        if (VerificarNomeDuplicado(dto.Nome))
-            erros.Add("Já existe um item com este nome.");
+        if (VerificarProdutoDuplicado(dto.ProdutoId, dto.ListaId))
+            erros.Add("Este produto já foi adicionado nesta lista.");
 
         if (erros.Any())
             return RetornarErros(erros);
 
-        repositorioItensDaLista.Cadastrar(novoItensDaLista);
+        repositorioItensDaLista.Cadastrar(novoItem);
+
+        AtualizarTotaisLista(dto.ListaId);
 
         return Result.Ok();
     }
 
     public Result Editar(EditarItensDaListaDto dto)
     {
-        ItensDaLista itensDaListaAtualizada = new ItensDaLista(
-            dto.Nome,
-            dto.Preco
-        );
+        ItensDaLista itemAtualizado = new ItensDaLista(dto.ProdutoId, dto.ListaId, dto.Quantidade, dto.PrecoUnitario);
 
-        List<string> erros = itensDaListaAtualizada.Validar();
+        List<string> erros = itemAtualizado.Validar();
 
-        if (VerificarNomeDuplicado(dto.Nome, dto.Id))
-            erros.Add("Já existe um item com este nome.");
+        if (VerificarProdutoDuplicado(dto.ProdutoId, dto.ListaId, dto.Id))
+            erros.Add("Este produto já foi adicionado nesta lista.");
 
         if (erros.Any())
             return RetornarErros(erros);
 
-        repositorioItensDaLista.Editar(dto.Id, itensDaListaAtualizada);
+        repositorioItensDaLista.Editar(dto.Id, itemAtualizado);
+
+        AtualizarTotaisLista(dto.ListaId);
 
         return Result.Ok();
     }
 
     public Result Excluir(string id)
     {
-        List<string> erros = new List<string>();
+        ItensDaLista? item = repositorioItensDaLista.SelecionarPorId(id);
 
-        if (VerificarListaCadastrada(id))
-            erros.Add("Não é possível excluir um item que esteja em alguma lista de compras.");
-
-        if (erros.Any())
-            return RetornarErros(erros);
+        if (item == null)
+            return Result.Fail("Item não encontrado.");
 
         repositorioItensDaLista.Excluir(id);
+
+        AtualizarTotaisLista(item.ListaId);
 
         return Result.Ok();
     }
 
     public List<ListarItensDaListaDto> SelecionarTodos()
     {
-        List<ItensDaLista> itensDaLista = repositorioItensDaLista.SelecionarTodos();
+        List<ItensDaLista> itens = repositorioItensDaLista.SelecionarTodos();
 
-        return itensDaLista.Select(idl => new ListarItensDaListaDto(idl.Id, idl.Nome, idl.Preco)).ToList();
+        return itens.Select(i => new ListarItensDaListaDto(
+            i.Id,
+            i.ProdutoId,
+            i.ListaId,
+            i.Quantidade,
+            i.PrecoUnitario,
+            i.ValorTotal
+        )).ToList();
     }
 
     public Result<ListarItensDaListaDto> SelecionarPorId(string id)
     {
-        ItensDaLista? itensDaLista = repositorioItensDaLista.SelecionarPorId(id);
+        ItensDaLista? item = repositorioItensDaLista.SelecionarPorId(id);
 
-        if (itensDaLista == null)
+        if (item == null)
             return Result.Fail("Item não encontrado.");
 
-        return Result.Ok(new ListarItensDaListaDto(itensDaLista.Id, itensDaLista.Nome, itensDaLista.Preco));
+        return Result.Ok(new ListarItensDaListaDto(
+            item.Id,
+            item.ProdutoId,
+            item.ListaId,
+            item.Quantidade,
+            item.PrecoUnitario,
+            item.ValorTotal
+        ));
     }
 
-    private bool VerificarNomeDuplicado(string nome, string? idIgnorado = null)
+    private bool VerificarProdutoDuplicado(string produtoId, string listaId, string? idIgnorado = null)
     {
-        List<ItensDaLista> itensDaLista = repositorioItensDaLista.SelecionarTodos();
+        List<ItensDaLista> itens = repositorioItensDaLista.SelecionarTodos();
 
-        foreach (ItensDaLista idl in itensDaLista)
-        {
-            if (idl.Id != idIgnorado && string.Equals(idl.Nome, nome, StringComparison.OrdinalIgnoreCase))
-                return true;
-        }
-
-        return false;
+        return itens.Any(i => i.ListaId == listaId && i.ProdutoId == produtoId && i.Id != idIgnorado);
     }
 
-    private bool VerificarListaCadastrada(string idProduto)
+    private void AtualizarTotaisLista(string listaId)
     {
-        return repositorioListasDeCompras.SelecionarTodos().Any(ldc => ldc.idProduto == idProduto);
+        ListasDeCompras? lista = repositorioListasDeCompras.SelecionarPorId(listaId);
+
+        if (lista == null) return;
+
+        var itensDaLista = repositorioItensDaLista.SelecionarTodos().Where(i => i.ListaId == listaId).ToList();
+
+        lista.ItensTotais = itensDaLista.Sum(i => i.Quantidade);
+        lista.GastoEstimado = itensDaLista.Sum(i => i.ValorTotal);
+
+        repositorioListasDeCompras.Editar(lista.Id, lista);
     }
 
     private static Result RetornarErros(List<string> erros)
     {
         List<IError> listaErros = erros.Select(e => new Error(e)).ToList<IError>();
-
         return Result.Fail(listaErros);
     }
 }
