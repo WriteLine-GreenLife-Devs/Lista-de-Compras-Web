@@ -20,11 +20,11 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
     {
     }
 
-    public ListasDeCompras(string nome, DateTime dataCriacao)
+    public ListasDeCompras(string nome, DateTime dataCriacao, StatusLista status)
     {
         Nome = nome;
         DataCriacao = dataCriacao;
-        Status = StatusLista.Aberta;
+        Status = status;
         ItensTotais = 0;
         GastoEstimado = 0;
     }
@@ -49,5 +49,6 @@ public sealed class ListasDeCompras : EntidadeBase<ListasDeCompras>
         Status = entidadeAtualizada.Status;
         ItensTotais = entidadeAtualizada.ItensTotais;
         GastoEstimado = entidadeAtualizada.GastoEstimado;
+        Status = entidadeAtualizada.Status;
     }
 }

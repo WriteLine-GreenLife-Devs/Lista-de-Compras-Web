@@ -72,6 +72,8 @@ public class ListasDeComprasController(
 
         EditarListasDeComprasDto dto = mapeador.Map<EditarListasDeComprasDto>(editarVm);
 
+        dto = dto with { Status = editarVm.Status };
+
         Result resultado = servicoListasDeCompras.Editar(dto);
 
         if (resultado.IsFailed)

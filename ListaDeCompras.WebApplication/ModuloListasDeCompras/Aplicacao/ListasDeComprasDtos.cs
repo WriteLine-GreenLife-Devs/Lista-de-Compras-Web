@@ -13,7 +13,8 @@ public record ListarListasDeComprasDto(
 
 public record CadastrarListasDeComprasDto(
     string Nome,
-    DateTime DataCriacao
+    DateTime DataCriacao,
+    StatusLista Status = StatusLista.Aberta
 );
 
 public record EditarListasDeComprasDto(

@@ -17,7 +17,7 @@ public class ServicoListasDeCompras
 
     public Result Cadastrar(CadastrarListasDeComprasDto dto)
     {
-        ListasDeCompras novaLista = new ListasDeCompras(dto.Nome, dto.DataCriacao);
+        ListasDeCompras novaLista = new ListasDeCompras(dto.Nome, dto.DataCriacao, dto.Status);
 
         List<string> erros = novaLista.Validar();
 
@@ -34,7 +34,7 @@ public class ServicoListasDeCompras
 
     public Result Editar(EditarListasDeComprasDto dto)
     {
-        ListasDeCompras listaAtualizada = new ListasDeCompras(dto.Nome, dto.DataCriacao);
+        ListasDeCompras listaAtualizada = new ListasDeCompras(dto.Nome, dto.DataCriacao, dto.Status);
 
         List<string> erros = listaAtualizada.Validar();
 
