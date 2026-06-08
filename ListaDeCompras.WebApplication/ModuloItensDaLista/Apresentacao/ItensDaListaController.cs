@@ -17,9 +17,16 @@ public class ItensDaListaController(
 ) : Controller
 {
     [HttpGet]
-    public ActionResult Listar()
+    public ActionResult Listar(string? listaId = null)
     {
+        ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
+        ViewBag.ListaSelecionada = listaId;
+
         List<ListarItensDaListaDto> dtos = servicoItensDaLista.SelecionarTodos();
+
+        if (!string.IsNullOrEmpty(listaId))
+            dtos = dtos.Where(i => i.ListaId == listaId).ToList();
+
         List<ListarItensDaListaViewModel> vms = mapeador.Map<List<ListarItensDaListaViewModel>>(dtos);
 
         return View(vms);

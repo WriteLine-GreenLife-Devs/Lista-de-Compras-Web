@@ -90,7 +90,8 @@ public class ServicoItensDaLista
                 lista?.Nome ?? "Lista não encontrada",
                 i.Quantidade,
                 i.PrecoUnitario,
-                valorTotal
+                valorTotal,
+                i.ListaId
             );
         }).ToList();
     }
@@ -113,7 +114,8 @@ public class ServicoItensDaLista
             lista?.Nome ?? "Lista não encontrada",
             item.Quantidade,
             item.PrecoUnitario,
-            valorTotal
+            valorTotal,
+            item.ListaId
         ));
     }
 

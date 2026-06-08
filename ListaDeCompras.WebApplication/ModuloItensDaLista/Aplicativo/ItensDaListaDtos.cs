@@ -6,7 +6,8 @@ public record ListarItensDaListaDto(
     string ListaNome,
     int Quantidade,
     decimal PrecoUnitario,
-    decimal ValorTotal
+    decimal ValorTotal,
+    string ListaId
 );
 
 public record CadastrarItensDaListaDto(

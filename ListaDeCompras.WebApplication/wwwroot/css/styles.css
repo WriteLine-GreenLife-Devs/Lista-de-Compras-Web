@@ -306,7 +306,46 @@ form.card {
     letter-spacing: 0.02em;
 }
 
+/* Apenas o conteúdo do modal */
+#filtroModal .modal-content,
+#itensModal .modal-content {
+    color: rgba(227, 237, 247, 0.8);
+    background-color: var(--surface);
+    border: 2px solid var(--primary);
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(0, 47, 128, 0.35);
+}
+
+/* Cabeçalho do modal */
+#filtroModal .modal-header,
+#itensModal .modal-header {
+    color: rgba(227, 237, 247, 0.8);
+    border-bottom: 1px solid var(--border);
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Itens da lista dentro do modal */
+#filtroModal .list-group-item,
+#itensModal .list-group-item {
+    background-color: rgba(0, 47, 128, 0.35);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+#filtroModal .list-group-item:hover,
+#itensModal .list-group-item:hover {
+    color: rgba(227, 237, 247, 0.8);
+    background-color: var(--primary-soft);
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
 @media (max-width: 768px) {
+
     header,
     main,
     nav {
