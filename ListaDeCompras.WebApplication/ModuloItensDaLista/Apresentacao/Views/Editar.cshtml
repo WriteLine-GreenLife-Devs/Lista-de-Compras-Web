@@ -1,12 +1,13 @@
 @using ListaDeCompras.WebApplication.ModuloItensDaLista.Apresentacao
 @{
     Layout = "_Layout";
-    ViewBag.Titulo = "Cadastro de Item da Lista";
+    ViewBag.Titulo = "Editar Item da Lista";
 }
 
-@model CadastrarItensDaListaViewModel
+@model EditarItensDaListaViewModel
 
-<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Cadastrar" method="post">
+<form class="card border-primary-subtle shadow-sm mx-auto p-4" style="max-width: 620px;" asp-action="Editar" method="post">
+    <input asp-for="Id" type="hidden" />
 
     @if (ViewData.ModelState.Values.SelectMany(v => v.Errors).Any())
     {
@@ -32,7 +33,7 @@
     </div>
 
     <div class="mb-3">
-        <label asp-for="PrecoUnitario" class="form-label fw-semibold text-primary text-uppercase small">Preço</label>
+        <label asp-for="PrecoUnitario" class="form-label fw-semibold text-primary text-uppercase small">Preço Unitário</label>
         <input asp-for="PrecoUnitario" type="number" step="0.01" class="form-control">
         <span asp-validation-for="PrecoUnitario" class="text-danger small fw-semibold"></span>
     </div>

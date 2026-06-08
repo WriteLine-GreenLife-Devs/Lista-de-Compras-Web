@@ -1,6 +1,7 @@
+@using ListaDeCompras.WebApplication.ModuloItensDaLista.Apresentacao
 @{
     Layout = "_Layout";
-    ViewBag.Titulo = "Excluir Listas de Compras";
+    ViewBag.Titulo = "Excluir Item da Lista";
 }
 
 @model ExcluirItensDaListaViewModel
@@ -14,8 +15,28 @@
     }
 
     <div class="mb-3">
-        <label class="form-label fw-semibold text-primary text-uppercase small">Nome</label>
-        <input value="@Model.Nome" class="form-control" disabled>
+        <label class="form-label fw-semibold text-primary text-uppercase small">Produto</label>
+        <input value="@Model.ProdutoNome" class="form-control" disabled>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-semibold text-primary text-uppercase small">Lista</label>
+        <input value="@Model.ListaNome" class="form-control" disabled>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-semibold text-primary text-uppercase small">Quantidade</label>
+        <input value="@Model.Quantidade" class="form-control" disabled>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-semibold text-primary text-uppercase small">Preço Unitário</label>
+        <input value="@Model.PrecoUnitario.ToString("C")" class="form-control" disabled>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label fw-semibold text-primary text-uppercase small">Valor Total</label>
+        <input value="@Model.ValorTotal.ToString("C")" class="form-control" disabled>
     </div>
 
     <div class="alert alert-warning" role="alert">

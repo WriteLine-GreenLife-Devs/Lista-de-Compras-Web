@@ -12,7 +12,6 @@ namespace ListaDeCompras.WebApplication.ModuloItensDaLista.Apresentacao;
 public class ItensDaListaController(
     ServicoItensDaLista servicoItensDaLista,
     IMapper mapeador,
-    InterfaceRepositorioItensDaLista repositorioItensDaLista,
     InterfaceRepositorioProduto repositorioProduto,
     InterfaceRepositorioListasDeCompras repositorioListasDeCompras
 ) : Controller
@@ -21,8 +20,9 @@ public class ItensDaListaController(
     public ActionResult Listar()
     {
         List<ListarItensDaListaDto> dtos = servicoItensDaLista.SelecionarTodos();
-        List<ListarItensDaListaViewModel> listarVms = mapeador.Map<List<ListarItensDaListaViewModel>>(dtos);
-        return View(listarVms);
+        List<ListarItensDaListaViewModel> vms = mapeador.Map<List<ListarItensDaListaViewModel>>(dtos);
+
+        return View(vms);
     }
 
     [HttpGet]
@@ -37,27 +37,27 @@ public class ItensDaListaController(
         string produtoPadraoId = produtos.FirstOrDefault()?.Id ?? string.Empty;
         string listaPadraoId = listas.FirstOrDefault()?.Id ?? string.Empty;
 
-        CadastrarItensDaListaViewModel cadastrarVm = new CadastrarItensDaListaViewModel(
+        CadastrarItensDaListaViewModel vm = new CadastrarItensDaListaViewModel(
             produtoPadraoId,
             listaPadraoId,
             1,
             0
         );
 
-        return View(cadastrarVm);
+        return View(vm);
     }
 
     [HttpPost]
-    public ActionResult Cadastrar(CadastrarItensDaListaViewModel cadastrarVm)
+    public ActionResult Cadastrar(CadastrarItensDaListaViewModel vm)
     {
         if (!ModelState.IsValid)
         {
             ViewBag.Produtos = repositorioProduto.SelecionarTodos();
             ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
-            return View(cadastrarVm);
+            return View(vm);
         }
 
-        CadastrarItensDaListaDto dto = mapeador.Map<CadastrarItensDaListaDto>(cadastrarVm);
+        CadastrarItensDaListaDto dto = mapeador.Map<CadastrarItensDaListaDto>(vm);
         Result resultado = servicoItensDaLista.Cadastrar(dto);
 
         if (resultado.IsFailed)
@@ -65,7 +65,7 @@ public class ItensDaListaController(
             ModelState.AddModelError(resultado);
             ViewBag.Produtos = repositorioProduto.SelecionarTodos();
             ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
-            return View(cadastrarVm);
+            return View(vm);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -74,34 +74,27 @@ public class ItensDaListaController(
     [HttpGet]
     public ActionResult Editar(string id)
     {
-        ItensDaLista? item = repositorioItensDaLista.SelecionarPorId(id);
-        if (item == null) return RedirectToAction(nameof(Listar));
+        Result<ListarItensDaListaDto> dto = servicoItensDaLista.SelecionarPorId(id);
+        if (dto.IsFailed) return RedirectToAction(nameof(Listar));
 
         ViewBag.Produtos = repositorioProduto.SelecionarTodos();
         ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
 
-        EditarItensDaListaViewModel editarVm = new EditarItensDaListaViewModel(
-            item.Id,
-            item.ProdutoId,
-            item.ListaId,
-            item.Quantidade,
-            item.PrecoUnitario
-        );
-
-        return View(editarVm);
+        EditarItensDaListaViewModel vm = mapeador.Map<EditarItensDaListaViewModel>(dto.Value);
+        return View(vm);
     }
 
     [HttpPost]
-    public ActionResult Editar(EditarItensDaListaViewModel editarVm)
+    public ActionResult Editar(EditarItensDaListaViewModel vm)
     {
         if (!ModelState.IsValid)
         {
             ViewBag.Produtos = repositorioProduto.SelecionarTodos();
             ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
-            return View(editarVm);
+            return View(vm);
         }
 
-        EditarItensDaListaDto dto = mapeador.Map<EditarItensDaListaDto>(editarVm);
+        EditarItensDaListaDto dto = mapeador.Map<EditarItensDaListaDto>(vm);
         Result resultado = servicoItensDaLista.Editar(dto);
 
         if (resultado.IsFailed)
@@ -109,7 +102,7 @@ public class ItensDaListaController(
             ModelState.AddModelError(resultado);
             ViewBag.Produtos = repositorioProduto.SelecionarTodos();
             ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
-            return View(editarVm);
+            return View(vm);
         }
 
         return RedirectToAction(nameof(Listar));
@@ -118,30 +111,22 @@ public class ItensDaListaController(
     [HttpGet]
     public ActionResult Excluir(string id)
     {
-        ItensDaLista? item = repositorioItensDaLista.SelecionarPorId(id);
-        if (item == null) return RedirectToAction(nameof(Listar));
+        Result<ListarItensDaListaDto> dto = servicoItensDaLista.SelecionarPorId(id);
+        if (dto.IsFailed) return RedirectToAction(nameof(Listar));
 
-        ExcluirItensDaListaViewModel excluirVm = new ExcluirItensDaListaViewModel(
-            item.Id,
-            item.ProdutoId,
-            item.ListaId,
-            item.Quantidade,
-            item.PrecoUnitario,
-            item.ValorTotal
-        );
-
-        return View(excluirVm);
+        ExcluirItensDaListaViewModel vm = mapeador.Map<ExcluirItensDaListaViewModel>(dto.Value);
+        return View(vm);
     }
 
     [HttpPost]
-    public ActionResult Excluir(ExcluirItensDaListaViewModel excluirVm)
+    public ActionResult Excluir(ExcluirItensDaListaViewModel vm)
     {
-        Result resultado = servicoItensDaLista.Excluir(excluirVm.Id);
+        Result resultado = servicoItensDaLista.Excluir(vm.Id);
 
         if (resultado.IsFailed)
         {
             ModelState.AddModelError(resultado);
-            return View(excluirVm);
+            return View(vm);
         }
 
         return RedirectToAction(nameof(Listar));

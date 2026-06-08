@@ -1,6 +1,7 @@
 using ListaDeCompras.WebApplication.ModuloCategoria.Aplicacao;
 using ListaDeCompras.WebApplication.ModuloProduto.Aplicacao;
 using ListaDeCompras.WebApplication.ModuloListasDeCompras.Aplicacao;
+using ListaDeCompras.WebApplication.ModuloItensDaLista.Aplicacao;
 
 namespace ListaDeCompras.WebApplication.Compartilhado.Aplicacao;
 
@@ -13,6 +14,7 @@ public static class InjecaoDependencia
         services.AddScoped<ServicoCategoria>();
         services.AddScoped<ServicoProduto>();
         services.AddScoped<ServicoListasDeCompras>();
+        services.AddScoped<ServicoItensDaLista>();
 
         #endregion
     }

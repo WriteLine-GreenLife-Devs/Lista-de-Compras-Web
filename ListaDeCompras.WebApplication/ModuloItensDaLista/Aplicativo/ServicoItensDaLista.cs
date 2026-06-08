@@ -77,14 +77,22 @@ public class ServicoItensDaLista
     {
         List<ItensDaLista> itens = repositorioItensDaLista.SelecionarTodos();
 
-        return itens.Select(i => new ListarItensDaListaDto(
-            i.Id,
-            i.ProdutoId,
-            i.ListaId,
-            i.Quantidade,
-            i.PrecoUnitario,
-            i.ValorTotal
-        )).ToList();
+        return itens.Select(i =>
+        {
+            Produto? produto = repositorioProduto.SelecionarPorId(i.ProdutoId);
+            ListasDeCompras? lista = repositorioListasDeCompras.SelecionarPorId(i.ListaId);
+
+            decimal valorTotal = i.Quantidade * i.PrecoUnitario;
+
+            return new ListarItensDaListaDto(
+                i.Id,
+                produto?.Nome ?? "Produto não encontrado",
+                lista?.Nome ?? "Lista não encontrada",
+                i.Quantidade,
+                i.PrecoUnitario,
+                valorTotal
+            );
+        }).ToList();
     }
 
     public Result<ListarItensDaListaDto> SelecionarPorId(string id)
@@ -94,13 +102,18 @@ public class ServicoItensDaLista
         if (item == null)
             return Result.Fail("Item não encontrado.");
 
+        Produto? produto = repositorioProduto.SelecionarPorId(item.ProdutoId);
+        ListasDeCompras? lista = repositorioListasDeCompras.SelecionarPorId(item.ListaId);
+
+        decimal valorTotal = item.Quantidade * item.PrecoUnitario;
+
         return Result.Ok(new ListarItensDaListaDto(
             item.Id,
-            item.ProdutoId,
-            item.ListaId,
+            produto?.Nome ?? "Produto não encontrado",
+            lista?.Nome ?? "Lista não encontrada",
             item.Quantidade,
             item.PrecoUnitario,
-            item.ValorTotal
+            valorTotal
         ));
     }
 
@@ -117,10 +130,10 @@ public class ServicoItensDaLista
 
         if (lista == null) return;
 
-        var itensDaLista = repositorioItensDaLista.SelecionarTodos().Where(i => i.ListaId == listaId).ToList();
+        List<ItensDaLista> itensDaLista = repositorioItensDaLista.SelecionarTodos().Where(i => i.ListaId == listaId).ToList();
 
         lista.ItensTotais = itensDaLista.Sum(i => i.Quantidade);
-        lista.GastoEstimado = itensDaLista.Sum(i => i.ValorTotal);
+        lista.GastoEstimado = itensDaLista.Sum(i => i.Quantidade * i.PrecoUnitario); // cálculo direto
 
         repositorioListasDeCompras.Editar(lista.Id, lista);
     }

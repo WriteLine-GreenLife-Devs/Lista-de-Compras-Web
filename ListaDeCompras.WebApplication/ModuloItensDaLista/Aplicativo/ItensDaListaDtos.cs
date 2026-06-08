@@ -2,8 +2,8 @@ namespace ListaDeCompras.WebApplication.ModuloItensDaLista.Aplicacao;
 
 public record ListarItensDaListaDto(
     string Id,
-    string ProdutoId,
-    string ListaId,
+    string ProdutoNome,
+    string ListaNome,
     int Quantidade,
     decimal PrecoUnitario,
     decimal ValorTotal

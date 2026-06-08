@@ -4,8 +4,8 @@ namespace ListaDeCompras.WebApplication.ModuloItensDaLista.Apresentacao;
 
 public record ListarItensDaListaViewModel(
     string Id,
-    string ProdutoId,
-    string ListaId,
+    string ProdutoNome,
+    string ListaNome,
     int Quantidade,
     decimal PrecoUnitario,
     decimal ValorTotal
@@ -15,7 +15,7 @@ public record CadastrarItensDaListaViewModel(
     [Required(ErrorMessage = "O campo \"Produto\" deve ser selecionado.")]
     string ProdutoId,
 
-    [Required(ErrorMessage = "O campo \"Lista\" deve ser selecionado.")]
+    [Required(ErrorMessage = "O campo \"Lista\" deve ser selecionada.")]
     string ListaId,
 
     [Range(1, int.MaxValue, ErrorMessage = "A quantidade deve ser maior que zero.")]
@@ -31,7 +31,7 @@ public record EditarItensDaListaViewModel(
     [Required(ErrorMessage = "O campo \"Produto\" deve ser selecionado.")]
     string ProdutoId,
 
-    [Required(ErrorMessage = "O campo \"Lista\" deve ser selecionado.")]
+    [Required(ErrorMessage = "O campo \"Lista\" deve ser selecionada.")]
     string ListaId,
 
     [Range(1, int.MaxValue, ErrorMessage = "A quantidade deve ser maior que zero.")]
@@ -43,8 +43,8 @@ public record EditarItensDaListaViewModel(
 
 public record ExcluirItensDaListaViewModel(
     string Id,
-    string ProdutoId,
-    string ListaId,
+    string ProdutoNome,
+    string ListaNome,
     int Quantidade,
     decimal PrecoUnitario,
     decimal ValorTotal
