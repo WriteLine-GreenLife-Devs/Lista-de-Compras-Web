@@ -226,10 +226,4 @@ F5
 
 ## 👨‍💻 Autor
 
-Desenvolvido por **Gustavo**.
-
----
-
-## 📄 Licença
-
 Projeto desenvolvido por Gustavo Tessaro e Alec Luí para fins acadêmicos.
