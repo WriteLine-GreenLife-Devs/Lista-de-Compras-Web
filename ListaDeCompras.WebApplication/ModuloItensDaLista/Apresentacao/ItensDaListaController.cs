@@ -77,10 +77,23 @@ public class ItensDaListaController(
         Result<ListarItensDaListaDto> dto = servicoItensDaLista.SelecionarPorId(id);
         if (dto.IsFailed) return RedirectToAction(nameof(Listar));
 
-        ViewBag.Produtos = repositorioProduto.SelecionarTodos();
-        ViewBag.Listas = repositorioListasDeCompras.SelecionarTodos();
+        List<Produto> produtos = repositorioProduto.SelecionarTodos();
+        List<ListasDeCompras> listas = repositorioListasDeCompras.SelecionarTodos();
 
-        EditarItensDaListaViewModel vm = mapeador.Map<EditarItensDaListaViewModel>(dto.Value);
+        ViewBag.Produtos = produtos;
+        ViewBag.Listas = listas;
+        
+        string produtoId = produtos.FirstOrDefault(p => p.Nome == dto.Value.ProdutoNome)?.Id ?? string.Empty;
+        string listaId = listas.FirstOrDefault(l => l.Nome == dto.Value.ListaNome)?.Id ?? string.Empty;
+
+        EditarItensDaListaViewModel vm = new EditarItensDaListaViewModel(
+            dto.Value.Id,
+            produtoId,
+            listaId,
+            dto.Value.Quantidade,
+            dto.Value.PrecoUnitario
+        );
+
         return View(vm);
     }
 
